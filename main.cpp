@@ -1,5 +1,6 @@
 #include "ASCIIDisplay.h"
 
+// Sample main, prints lines of characters and then layers TEST in the middle.
 int main(void) {
   ASCIIDisplay ad;
 
@@ -10,6 +11,7 @@ int main(void) {
   }
 
   ad.Print("|        TEST        |", 20, 11);
+  ad.Print("|        TEST        |", 20, 13, true);
 
   ad.draw();
 }

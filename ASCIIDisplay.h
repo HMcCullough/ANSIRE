@@ -42,6 +42,21 @@ public:
     }
   }
 
+  // Sets a character with spaces at a given point in the buffer
+  void charSet(char c, int xpoint, int ypoint, bool spaces) {
+    if (spaces) {
+      for (int y = 0; y < yres; y++) {
+        for (int x = 0; x < xres; x++) {
+          if (x == xpoint && y == ypoint) {
+            charBuffer[y][x] = c;
+          }
+        }
+      }
+    } else {
+      charSet(c, xpoint, ypoint);
+    }
+  }
+
   // Sets an entire string at a given point in the buffer
   void Print(string s, int xpoint, int ypoint) {
     for (int y = 0; y < yres; y++) {
@@ -53,6 +68,23 @@ public:
           }
         }
       }
+    }
+  }
+
+  // Sets an entire string with spaces at a given point in the buffer
+  void Print(string s, int xpoint, int ypoint, bool spaces) {
+    if (spaces) {
+      for (int y = 0; y < yres; y++) {
+        for (int x = 0; x < xres; x++) {
+          if (x == xpoint && y == ypoint) {
+            for (int i = 0; i < s.length(); i++) {
+              charBuffer[y][x + i] = s[i];
+            }
+          }
+        }
+      }
+    } else {
+      Print(s, xpoint, ypoint);
     }
   }
 
