@@ -1,18 +1,27 @@
+/* Copyright (C) 2017 Logan Williamson - All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license, and this disclaimer must
+ * remain in this source file while code is being used.
+ */
+
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
+// Size of the display buffer
 #define ScreenWidth 80
 #define ScreenHeight 23
 
 class ASCIIDisplay {
 public:
+  // Constructor, essentially just sets the resolution variables
   ASCIIDisplay() {
     xres = ScreenWidth;
     yres = ScreenHeight;
   }
 
+  // Clears the display buffer, but not the screen
   void Clear() {
     for (int y = 0; y < yres; y++) {
       for (int x = 0; x < xres; x++) {
@@ -21,6 +30,7 @@ public:
     }
   }
 
+  // Sets a character at a given point in the buffer
   void charSet(char c, int xpoint, int ypoint) {
     for (int y = 0; y < yres; y++) {
       for (int x = 0; x < xres; x++) {
@@ -32,6 +42,7 @@ public:
     }
   }
 
+  // Sets an entire string at a given point in the buffer
   void Print(string s, int xpoint, int ypoint) {
     for (int y = 0; y < yres; y++) {
       for (int x = 0; x < xres; x++) {
@@ -45,6 +56,7 @@ public:
     }
   }
 
+  // Redraws the buffer to the screen
   void draw() {
     clrscrn();
     for (int y = 0; y < yres; y++) {
@@ -56,6 +68,7 @@ public:
   }
 
 private:
+  // Clears the screen
   void clrscrn() {
 #ifdef WINDOWS
     std::system("cls");
