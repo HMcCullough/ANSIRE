@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 using namespace std;
 
@@ -19,88 +20,51 @@ public:
   ASCIIDisplay() {
     xres = ScreenWidth;
     yres = ScreenHeight;
+    Clear();
   }
 
   // Clears the display buffer, but not the screen
   void Clear() {
-    for (int y = 0; y < yres; y++) {
-      for (int x = 0; x < xres; x++) {
-        charBuffer[y][x] = '\0';
-      }
-    }
-  }
-
-  // Sets a character at a given point in the buffer
-  void charSet(char c, int xpoint, int ypoint) {
-    for (int y = 0; y < yres; y++) {
-      for (int x = 0; x < xres; x++) {
-        if (x == xpoint && y == ypoint) {
-          if (c != ' ')
-            charBuffer[y][x] = c;
-        }
-      }
-    }
+    memset(charBuffer, ' ', sizeof(charBuffer[0][0]) * xres * yres);
   }
 
   // Sets a character with spaces at a given point in the buffer
-  void charSet(char c, int xpoint, int ypoint, bool spaces) {
-    if (spaces) {
-      for (int y = 0; y < yres; y++) {
-        for (int x = 0; x < xres; x++) {
-          if (x == xpoint && y == ypoint) {
-            charBuffer[y][x] = c;
-          }
-        }
-      }
-    } else {
-      charSet(c, xpoint, ypoint);
-    }
+  void charSet(char c, int xpoint, int ypoint, bool spaces = false) {
+    if (!withinBounds(xpoint, ypoint))
+      return;
+
+    if (c != ' ' || spaces)
+      charBuffer[ypoint][xpoint] = c;
   }
 
   // Sets an entire string at a given point in the buffer
-  void Print(string s, int xpoint, int ypoint) {
-    for (int y = 0; y < yres; y++) {
-      for (int x = 0; x < xres; x++) {
-        if (x == xpoint && y == ypoint) {
-          for (int i = 0; i < s.length(); i++) {
-            if (s[i] != ' ')
-              charBuffer[y][x + i] = s[i];
-          }
-        }
-      }
-    }
-  }
+  void Print(string s, int xpoint, int ypoint, bool spaces = false) {
+    // Don't knoe the complexity of string::length so storing it in case it's O(N)
+    int sLen = s.length();
 
-  // Sets an entire string with spaces at a given point in the buffer
-  void Print(string s, int xpoint, int ypoint, bool spaces) {
-    if (spaces) {
-      for (int y = 0; y < yres; y++) {
-        for (int x = 0; x < xres; x++) {
-          if (x == xpoint && y == ypoint) {
-            for (int i = 0; i < s.length(); i++) {
-              charBuffer[y][x + i] = s[i];
-            }
-          }
-        }
-      }
-    } else {
-      Print(s, xpoint, ypoint);
-    }
+    // Make sure that the point is within the character buffer bounds
+    if (!withinBounds(xpoint, ypoint) || !withinBounds(xpoint + sLen, ypoint))
+      return;
+
+    for (int i = 0; i < sLen; i++)
+      if (s[i] != ' ' || spaces)
+	charBuffer[ypoint][xpoint + i] = s[i];
   }
 
   // Creates a box, for use with dialogues
   void CreateDialogue(int xdim, int ydim, int xpoint, int ypoint) {
+	std::cout << "ENTER CREATE DIALOGUE" << std::endl;
     for (int y = 0; y < ydim; y++) {
       if (y == 0) {
         charSet('/', xpoint, ypoint + y);
         for (int i = 1; i < (xdim); i++) {
-          charSet('=', xpoint + i, ypoint + y);
+          charSet('=', xpoint + i - 1, ypoint + y);
         }
         charSet('\\', xpoint + xdim, ypoint + y);
       } else if (y == ydim - 1) {
         charSet('\\', xpoint, ypoint + y);
         for (int i = 1; i < (xdim); i++) {
-          charSet('-', xpoint + i, ypoint + y);
+          charSet('-', xpoint + i - 1, ypoint + y);
         }
         charSet('/', xpoint + xdim, ypoint + y);
       } else {
@@ -108,9 +72,11 @@ public:
         for (int i = 1; i < (xdim); i++) {
           charSet(' ', xpoint + i, ypoint + y, true);
         }
-        charSet('|', xpoint + xdim, ypoint + y);
+        charSet('|', xpoint + xdim - 1, ypoint + y);
       }
     }
+
+	std::cout << "EXIT CREATE DIALOGUE" << std::endl;
   }
 
   // Redraws the buffer to the screen
@@ -133,6 +99,13 @@ private:
     // Assume POSIX
     std::system("clear");
 #endif
+  }
+
+  // Returns whether or not the point is within the bounds of charBuffer
+  bool withinBounds(int x, int y)
+  {
+	return (x >= 0) && (x < xres) &&
+	       (y >= 0) && (y < yres);
   }
 
   int xres, yres;
