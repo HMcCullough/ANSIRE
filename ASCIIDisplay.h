@@ -88,25 +88,27 @@ public:
     }
   }
 
+  // Creates a box, for use with dialogues
   void CreateDialogue(int xdim, int ydim, int xpoint, int ypoint) {
     for (int y = 0; y < ydim; y++) {
       if (y == 0) {
-        charSet('┏', xpoint, ypoint + y);
-        for (int i = 1; i < (xdim - 2); i++) {
-          charSet('━', xpoint + i, ypoint + y);
+        charSet('/', xpoint, ypoint + y);
+        for (int i = 1; i < (xdim); i++) {
+          charSet('=', xpoint + i, ypoint + y);
         }
-        charSet('┓', xpoint + xdim, ypoint + y);
+        charSet('\\', xpoint + xdim, ypoint + y);
       } else if (y == ydim - 1) {
-        charSet('┗', xpoint, ypoint + y);
-        for (int i = 1; i < (xdim - 2); i++) {
-          charSet('━', xpoint + i, ypoint + y);
+        charSet('\\', xpoint, ypoint + y);
+        for (int i = 1; i < (xdim); i++) {
+          charSet('-', xpoint + i, ypoint + y);
         }
-        charSet('┛', xpoint + xdim, ypoint + y);
+        charSet('/', xpoint + xdim, ypoint + y);
       } else {
-        charSet('┃', xpoint, ypoiny + y);
-        for (int i = 1; i < (xdim - 2); i++) {
+        charSet('|', xpoint, ypoint + y);
+        for (int i = 1; i < (xdim); i++) {
           charSet(' ', xpoint + i, ypoint + y, true);
         }
+        charSet('|', xpoint + xdim, ypoint + y);
       }
     }
   }
