@@ -13,5 +13,7 @@ int main(void) {
   ad.Print("|        TEST        |", 20, 11);
   ad.Print("|        TEST        |", 20, 13, true);
 
+  ad.CreateDialogue(20, 5, 1, 1);
+
   ad.draw();
 }
