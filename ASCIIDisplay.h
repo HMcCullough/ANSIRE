@@ -53,7 +53,6 @@ public:
 
   // Creates a box, for use with dialogues
   void CreateDialogue(int xdim, int ydim, int xpoint, int ypoint) {
-	std::cout << "ENTER CREATE DIALOGUE" << std::endl;
     for (int y = 0; y < ydim; y++) {
       if (y == 0) {
         charSet('/', xpoint, ypoint + y);
@@ -75,8 +74,6 @@ public:
         charSet('|', xpoint + xdim - 1, ypoint + y);
       }
     }
-
-	std::cout << "EXIT CREATE DIALOGUE" << std::endl;
   }
 
   // Redraws the buffer to the screen
