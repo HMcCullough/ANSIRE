@@ -1,6 +1,8 @@
+#pragma once
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <string>
+#include "sdl_surface.h"
 
 using std::string;
 using std::cout;
@@ -11,7 +13,6 @@ public:
 	sdl_window(int _width, int _height, string _title)
 	{
 		window = nullptr;
-		surface = nullptr;
 
 		width = _width;
 		height = _height;
@@ -50,7 +51,7 @@ public:
 			{
 				// If we successfully created a window, we can retrieve that window's surface
 				// Surface is the modifiable pixel array of window
-				surface = SDL_GetWindowSurface(window);
+				surface = sdl_surface(window);
 			}
 			else
 			{
@@ -69,7 +70,7 @@ public:
 
 private:
 	SDL_Window * window;
-	SDL_Surface * surface;
+	sdl_surface surface;
 
 	int width, height;
 	string title;

@@ -20,7 +20,6 @@ int main(void) {
 				default: break;
 			}
 		}
-	window.close();
 
 	return 0;
 }
