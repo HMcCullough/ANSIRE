@@ -8,11 +8,14 @@ using std::cout;
 
 class sdl_surface
 {
+
+friend class sdl_window;
+
 public:
 	sdl_surface(SDL_Window * window = nullptr)
 	{
 		// If the surface was created from a window we mark it as a window surface
-		// Does not keep track of doulbe-buffered systems at the moment
+		// Does not keep track of double-buffered systems at the moment
 		isWindowSurface = (window != nullptr);
 		if (isWindowSurface)
 			surface = SDL_GetWindowSurface(window);
@@ -36,7 +39,7 @@ public:
 
 	/// Will load BMP data into a surface if the surface does not belong to a window
 	/// If the BMP did not load properly or the surface is already allocated, load will return false
-	bool load (string path)
+	bool loadBMP (string path)
 	{
 		bool success = true;
 
@@ -71,6 +74,7 @@ public:
 	{
 		if (!isWindowSurface)
 		{
+			// Safe to pass NULL here
 			SDL_FreeSurface(surface);
 			surface = nullptr;
 		}
