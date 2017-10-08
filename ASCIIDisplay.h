@@ -60,7 +60,7 @@ public:
           charSet('=', xpoint + i, ypoint + y);
         }
         charSet('\\', xpoint + xdim - 1, ypoint + y);
-      } else if (y == ydim - 1) {
+     } else if (y == ydim - 1) {
         charSet('\\', xpoint, ypoint + y);
         for (int i = 1; i < (xdim); i++) {
           charSet('-', xpoint + i, ypoint + y);
